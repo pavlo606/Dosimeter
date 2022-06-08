@@ -26,6 +26,7 @@ void tube_impulse()
 void setupLogger()
 {
   lcd.clear();
+  getCharge();
   lcd.setCursor(11, 1);
   getCharge();
   lcd.setCursor(0, 0);
