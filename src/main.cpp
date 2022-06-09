@@ -23,20 +23,6 @@ void tube_impulse()
   counts++;
 }
 
-void setupLogger()
-{
-  lcd.clear();
-  lcd.setCursor(11, 1);
-  getCharge();
-  lcd.setCursor(0, 0);
-  currentMillis = millis();
-  lcd.print("---- uSv/h");
-  while (millis() - currentMillis < LOG_PERIOD)
-  {
-  }
-  cpm = counts * multiplier;
-}
-
 void getCharge()
 {
   int value = analogRead(2);
@@ -81,6 +67,20 @@ void getCharge()
     lcd.print((char)0xDB);
     lcd.print((char)0x7D);
   }
+}
+
+void setupLogger()
+{
+  lcd.clear();
+  lcd.setCursor(11, 1);
+  getCharge();
+  lcd.setCursor(0, 0);
+  currentMillis = millis();
+  lcd.print("---- uSv/h");
+  while (millis() - currentMillis < LOG_PERIOD)
+  {
+  }
+  cpm = counts * multiplier;
 }
 
 void updateLcd()
