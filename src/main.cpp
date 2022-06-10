@@ -12,6 +12,8 @@ float cpm;            // variable for CPM
 float uSv;
 float multiplier; // variable for calculation CPM in this sketch
 float maxPer = 60000.0;
+int sec = 0;
+int min = 0;
 int charge;
 const float conFactor = 0.008120370;
 unsigned long previousMillis; // variable for time measurement
@@ -77,6 +79,8 @@ void setupLogger()
   lcd.setCursor(0, 0);
   currentMillis = millis();
   lcd.print("---- uSv/h");
+  sec = 0;
+  min = 0;
   while (millis() - currentMillis < LOG_PERIOD)
   {
   }
@@ -89,6 +93,10 @@ void updateLcd()
   lcd.setCursor(0, 0);
   lcd.print(uSv, 2);
   lcd.print(" uSv/h");
+  lcd.setCursor(0, 1);
+  lcd.print(min);
+  lcd.print(":");
+  lcd.print(sec);
   lcd.setCursor(11, 1);
   getCharge();
 }
@@ -98,6 +106,11 @@ void update()
   multiplier = (millis() - currentMillis) / maxPer;
   cpm = counts / multiplier;
   uSv = cpm * conFactor;
+  sec = ((millis() - currentMillis) / 1000) - 60 * min;
+  if (sec >= 60)
+  {
+    min++;
+  }
 
   updateLcd();
 
@@ -111,6 +124,10 @@ void update()
   Serial.println(millis());
   Serial.print("current millis = ");
   Serial.println(currentMillis);
+  Serial.print("seconds = ");
+  Serial.println(sec);
+  Serial.print("minutes = ");
+  Serial.println(min);
   Serial.println();
 }
 
